@@ -1,136 +1,46 @@
-# -*- coding: utf-8 -*-
-#
-# Godot Engine documentation build configuration file
 
 import sys
 import os
 
-# -- General configuration ------------------------------------------------
+#sys.path.append('/Users/asakunotomohiro/Program/sphinx/source/gdscript.py')
+#sys.path.append('/Users/asakunotomohiro/Program/gdscript/gdscript.py')
+sys.path.append('/Users/asakunotomohiro/Program/gdscript')
+#sys.path.append('../../../../gdscript/gdscript.py')
 
-needs_sphinx = '1.3'
+#import sphinx_rtd_theme
+#html_theme = "sphinx_rtd_theme"
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-# Sphinx extension module names and templates location
+language = 'ja'
+epub_language = 'ja'
+#html_language = 'ja'   ←たぶん、こんな設定は無いと思うが、エラーにはならなかった。
+
+
 sys.path.append(os.path.abspath('extensions'))
-extensions = ['gdscript', 'sphinx_tabs.tabs', 'sphinx.ext.imgmath']
+# GDScript を記事内で使うためのモジュール
+extensions = ['gdscript']
+# GDScript 設定ここまで ----------------
 
+
+# TODOリストを使うためのモジュール(インストール不要で使えるようだ)
+extensions += ['sphinx.ext.todo']
+
+[extensions]
+todo_include_todos=True
+# TODOリスト設定ここまで -----------------------------------------
+
+
+# tabsタグを使うためにモジュールをインストール
+extensions += ['sphinx_tabs.tabs']
 templates_path = ['_templates']
+# tabsタグ設定ここまで -----------------------
 
-# You can specify multiple suffix as a list of string: ['.rst', '.md']
-source_suffix = '.rst'
-source_encoding = 'utf-8-sig'
 
-# The master toctree document
-master_doc = 'index'
 
-# General information about the project
-project = 'Godot Engine'
-copyright = '2014-2019, Juan Linietsky, Ariel Manzur and the Godot community (CC-BY 3.0)'
-author = 'Juan Linietsky, Ariel Manzur and the Godot community'
 
-# Version info for the project, acts as replacement for |version| and |release|
-# The short X.Y version
-version = 'latest'
-# The full version, including alpha/beta/rc tags
-release = 'latest'
-
-# Parse Sphinx tags passed from RTD via environment
-env_tags = os.getenv('SPHINX_TAGS')
-if env_tags != None:
-   for tag in env_tags.split(','):
-       print("Adding Sphinx tag: %s" % tag.strip())
-       tags.add(tag.strip())
-
-# Language / i18n
-language = os.getenv('READTHEDOCS_LANGUAGE', 'en')
-is_i18n = tags.has('i18n')
-
-exclude_patterns = ['_build']
-
-# GDScript syntax highlighting
-from gdscript import GDScriptLexer
-from sphinx.highlighting import lexers
-lexers['gdscript'] = GDScriptLexer()
-
-# Pygments (syntax highlighting) style to use
-pygments_style = 'sphinx'
-highlight_language = 'gdscript'
-
-# -- Options for HTML output ----------------------------------------------
-
-# on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
-import sphinx_rtd_theme
-html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-if on_rtd:
-    using_rtd_theme = True
-
-# Theme options
-html_theme_options = {
-    # 'typekit_id': 'hiw1hhg',
-    # 'analytics_id': '',
-    # 'sticky_navigation': True  # Set to False to disable the sticky nav while scrolling.
-    'logo_only': True,  # if we have a html_logo below, this shows /only/ the logo with no title text
-    'collapse_navigation': False,  # Collapse navigation (False makes it tree-like)
-    # 'display_version': True,  # Display the docs version
-    # 'navigation_depth': 4,  # Depth of the headers shown in the navigation bar
-}
-
-# VCS options: https://docs.readthedocs.io/en/latest/vcs.html#github
-html_context = {
-    "display_github": not is_i18n, # Integrate GitHub
-    "github_user": "godotengine", # Username
-    "github_repo": "godot-docs", # Repo name
-    "github_version": "master", # Version
-    "conf_py_path": "/", # Path in the checkout to the docs root
-}
-
-html_logo = 'img/docs_logo.png'
-
-# These folders are copied to the documentation's HTML output
-html_static_path = ['_static']
-
-# These paths are either relative to html_static_path
-# or fully qualified paths (eg. https://...)
-html_css_files = [
-    'css/custom.css',
-]
-
-# Output file base name for HTML help builder
-htmlhelp_basename = 'GodotEnginedoc'
-
-# -- Options for reStructuredText parser ----------------------------------
-
-# Enable directives that insert the contents of external files
-file_insertion_enabled = False
-
-# -- Options for LaTeX output ---------------------------------------------
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title,
-#  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-  (master_doc, 'GodotEngine.tex', 'Godot Engine Documentation',
-   'Juan Linietsky, Ariel Manzur and the Godot community', 'manual'),
-]
-
-# -- Options for linkcheck builder ----------------------------------------
-
-# disable checking urls with about.html#this_part_of_page anchors
-linkcheck_anchors = False
-
-linkcheck_timeout = 10
-
-# -- I18n settings --------------------------------------------------------
-
-locale_dirs = ['../sphinx/po/']
-gettext_compact = False
-
-# Couldn't find a way to retrieve variables nor do advanced string
-# concat from reST, so had to hardcode this in the "epilog" added to
-# all pages. This is used in index.rst to display the Weblate badge.
-# On English pages, the badge points to the language-neutral engage page.
+# Weblate で翻訳された実績や進捗などをreStructuredTextで都合よく表示させることができない。
+# そのため、外部からその情報を引っ張り込むことにした。
+# それが以下の処理になる。
 rst_epilog = """
 .. |weblate_widget| image:: https://hosted.weblate.org/widgets/godot-engine/{image_locale}/godot-docs/287x66-white.png
     :alt: Translation status
@@ -140,6 +50,65 @@ rst_epilog = """
     target_locale='' if language == 'en' else '/' + language
 )
 
-# Exclude class reference when marked with tag i18n.
-if is_i18n:
-    exclude_patterns = ['classes']
+
+
+
+# 不自然な空白が表示される
+#   https://sphinx-users.jp/reverse-dict/html/japanese.html
+sys.path.insert(0, os.path.abspath('.')) # コメントを外します
+#extensions += ['japanesesupport', 'その他の拡張'] # 加えます
+extensions += ['japanesesupport'] # 加えます
+
+
+
+
+# 以下、何をやっているのか全く分からない。
+source_suffix = '.rst'
+source_encoding = 'utf-8-sig'
+
+master_doc = 'index_jp'
+
+env_tags = os.getenv('SPHINX_TAGS')
+if env_tags != None:
+   for tag in env_tags.split(','):
+       print("Adding Sphinx tag: %s" % tag.strip())
+       tags.add(tag.strip())
+
+language = os.getenv('READTHEDOCS_LANGUAGE', 'en')
+is_i18n = tags.has('i18n')
+
+exclude_patterns = ['_build']
+
+
+from gdscript import GDScriptLexer
+from sphinx.highlighting import lexers
+lexers['gdscript'] = GDScriptLexer()
+
+pygments_style = 'sphinx'
+highlight_language = 'gdscript'
+# ここまで、何をやっているのか全く分からない。
+
+
+
+#language = ja
+#language('ja')
+today_fmt = '%Y/%m/%d'
+
+
+
+def setup(app):
+    app.add_stylesheet('myStyle.css')
+
+
+
+
+
+html_use_smartypants = False
+
+
+
+
+latex_docclass = {'manual': 'jsbook'}
+
+
+# vim:set ts=4 sw=4 tw=0 fenc=utf-8:
